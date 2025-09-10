@@ -6,13 +6,12 @@
      
       <h1>Shopping List</h1>
       <p>Get it done today</p>
-      <input id="userinput"  onkeypress='addListAfterKeyPress()' type="text" placeholder="enter items">
+      <input id="userinput"  onkeypress='addListAfterKeyPress(event)' type="text" placeholder="enter items">
       <button id="enter" onclick="addListAfterClick()">Enter</button>
-      <ul id="'myul">
+      <ul id="myul">
 
          <li>Notebook
             <button onclick ='remove(this.parentNode)'>Delete</button>
-
          </li>
          <li>Jello
             <button onclick ='remove(this.parentNode)'>Delete</button>
@@ -36,6 +35,7 @@
          function addListAfterClick() {
             console.log(event);
             var input = document.getElementById("userinput");
+            console.log(input);
             // add new item only if the user has entered something
             if (input.value.length > 0) {
                
@@ -49,16 +49,12 @@
             // ul.innerHTML += input.value
          }
 
-         function addListAfterKeyPress(){
+         function addListAfterKeyPress(eve){
+            console.log(eve.keyCode);
 
-            console.log(event);
-
-            console.log(event.keyCode);
-            var input = document.getElementById("userinput");
-
-            if (input.value.length > 0 && event.keyCode ==13) {
-               createNewItem(input);
-               input.value = "";
+            if (eve.keyCode === 13) {
+               console.log('correct key 13 after Enter');
+               addListAfterClick();
             }
 
          }
@@ -69,16 +65,20 @@
             var textNode = document.createTextNode(input.value);
             li.appendChild(textNode);
             
-            //create the delete button with event listener
+            //create the delete button with event listener and textnode
             var btn =document.createElement('button');
             li.appendChild(btn);
 
-            btn.addEventListener('click', function() {remove(this.parentNode)})
-            btn.appendChild(document.createTextNode("Delete"));
-            //append the delete button to li element and then to mother ul element 
-            
+            btn.addEventListener('click', function() {remove(this.parentNode)}) //instead of btn.addEventListener('click', remove(this.parentNode)) --> as this is synchronus, immediate execution
+            var btn_txt =document.createTextNode("Delete");
+            btn.appendChild(btn_txt);
+
+            //append the fully furbished button to li element and then to mother ul element 
             li.appendChild(btn);
             ul.appendChild(li);
+
+            //clear inputvalue after enter
+            input.value ='';
          }
 
          function remove(obj){
@@ -93,3 +93,65 @@
  
    </body>
 </html>
+
+
+
+<!-- <html>
+   <head>
+      <title>Event Handling</title>
+   </head>
+   <body>
+     
+      <h1>Shopping List</h1>
+      <p>Get it done today</p>
+      <input id="userinput"  type="text" placeholder="enter items" onkeypress="handle(event)">
+      <button id="enter" onclick="addListAfterClick()" >Enter</button>
+      <ul id="myul">
+         <li>Notebook  <button onclick="deleteLi(this)">delete</button></li>
+         <li>Jello <button onclick="deleteLi(this)">delete</button></li>
+         <li>Spinach <button onclick="deleteLi(this)">delete</button></li>
+         <li>Rice <button onclick="deleteLi(this)">delete</button></li>
+         <li>Birthday Cake <button onclick="deleteLi(this)">delete</button></li>
+         <li>Candles <button onclick="deleteLi(this)">delete</button></li>
+      </ul>
+      
+      <script>
+         function handle(e){
+            if(e.keyCode === 13){
+               console.log("hello")
+               addListAfterClick()
+            }
+         }
+         function deleteLi(e){
+            e.parentElement.remove();
+         }
+         function addListAfterClick() {
+            var ul = document.getElementsByTagName("ul")[0];
+            var li = document.createElement("li");
+            var input = document.getElementById("userinput");
+            // add new item only if the user has entered something
+            if (input.value.length > 0) {
+               var textNode = document.createTextNode(input.value);
+               li.appendChild(textNode);
+               var delete_btn = document.createElement("button")
+               delete_btn.onclick = function () {
+                  this.parentNode.remove()
+               }
+               var btn_txt = document.createTextNode("delete")
+               delete_btn.appendChild(btn_txt)
+               li.appendChild(delete_btn)
+               ul.appendChild(li);
+               input.value = "";
+            }
+            // following alternative code also works but is unsafe
+            // try entering the input <h2>abcd</h2>
+            // var input = document.getElementById("userinput");
+            // var ul = document.getElementsByTagName("ul")[0];
+            // ul.innerHTML += input.value
+            
+         }
+
+      </script>
+ 
+   </body>
+</html> -->
