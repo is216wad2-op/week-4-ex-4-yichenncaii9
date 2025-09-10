@@ -70,7 +70,7 @@
             li.appendChild(btn);
 
             btn.addEventListener('click', function() {remove(this.parentNode)}) //instead of btn.addEventListener('click', remove(this.parentNode)) --> as this is synchronus, immediate execution
-            var btn_txt =document.createTextNode("Delete");
+            var btn_txt =document.createTextNode("delete");
             btn.appendChild(btn_txt);
 
             //append the fully furbished button to li element and then to mother ul element 
