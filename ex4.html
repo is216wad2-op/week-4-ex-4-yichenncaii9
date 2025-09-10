@@ -6,28 +6,40 @@
      
       <h1>Shopping List</h1>
       <p>Get it done today</p>
-      <input id="userinput"  type="text" placeholder="enter items">
+      <input id="userinput"  onkeypress='addListAfterKeyPress()' type="text" placeholder="enter items">
       <button id="enter" onclick="addListAfterClick()">Enter</button>
-      <ul>
-         <li>Notebook</li>
-         <li>Jello</li>
-         <li>Spinach</li>
-         <li>Rice</li>
-         <li>Birthday Cake</li>
-         <li>Candles</li>
+      <ul id="'myul">
+
+         <li>Notebook
+            <button onclick ='remove(this.parentNode)'>Delete</button>
+
+         </li>
+         <li>Jello
+            <button onclick ='remove(this.parentNode)'>Delete</button>
+         </li>
+         <li>Spinach
+            <button onclick ='remove(this.parentNode)'>Delete</button>
+         </li>
+         <li>Rice
+            <button onclick ='remove(this.parentNode)'>Delete</button>
+         </li>
+         <li>Birthday Cake
+            <button onclick ='remove(this.parentNode)'>Delete</button>
+         </li>
+         <li>Candles
+            <button onclick ='remove(this.parentNode)'>Delete</button>
+         </li>
       </ul>
       
       <script>
       
          function addListAfterClick() {
-            var ul = document.getElementsByTagName("ul")[0];
-            var li = document.createElement("li");
+            console.log(event);
             var input = document.getElementById("userinput");
             // add new item only if the user has entered something
             if (input.value.length > 0) {
-               var textNode = document.createTextNode(input.value);
-               li.appendChild(textNode);
-               ul.appendChild(li);
+               
+               createNewItem(input);
                input.value = "";
             }
             // following alternative code also works but is unsafe
@@ -36,6 +48,46 @@
             // var ul = document.getElementsByTagName("ul")[0];
             // ul.innerHTML += input.value
          }
+
+         function addListAfterKeyPress(){
+
+            console.log(event);
+
+            console.log(event.keyCode);
+            var input = document.getElementById("userinput");
+
+            if (input.value.length > 0 && event.keyCode ==13) {
+               createNewItem(input);
+               input.value = "";
+            }
+
+         }
+
+         function createNewItem(input){
+            var ul = document.getElementsByTagName("ul")[0];
+            var li = document.createElement("li");
+            var textNode = document.createTextNode(input.value);
+            li.appendChild(textNode);
+            
+            //create the delete button with event listener
+            var btn =document.createElement('button');
+            li.appendChild(btn);
+
+            btn.addEventListener('click', function() {remove(this.parentNode)})
+            btn.appendChild(document.createTextNode("Delete"));
+            //append the delete button to li element and then to mother ul element 
+            
+            li.appendChild(btn);
+            ul.appendChild(li);
+         }
+
+         function remove(obj){
+            obj.remove();
+         }
+            //alternative 
+            // var ul =document.getElementById('myul');
+            // ul.removeChild(obj);
+            //}
 
       </script>
  
